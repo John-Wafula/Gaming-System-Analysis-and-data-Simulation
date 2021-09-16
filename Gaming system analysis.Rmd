@@ -1,0 +1,207 @@
+---
+title: "Gaming System anaysis"
+output: html_document
+---
+
+A gaming system contains the following fields 
+game_id,player_id,played date and points
+
+# Question 1
+```{r}
+x<-rep(1:5,times=200)
+game_id<-sample(x)
+game_id
+
+player_X<-rep(75:124,times = 20)
+player_id<-sample(player_X)
+player_id
+
+test_date1 <- as.Date(runif(1000, as.integer(as.Date("2021-08-01")), as.integer(as.Date("2021-08-30"))), origin = "1970-01-01")
+test_date1
+
+points<-floor(runif(1000, min=75, max=200))
+points
+```
+
+Now we will combine them into a dataframe
+
+# Question 2
+test_date1<-as.Date(test_date1)
+data1<-as.data.frame(game_id,player_id,test_date1,points)
+head(data1)
+
+Writing mtcars data to a csv file
+write_csv(data1, path = "Games.csv")
+
+# Question3 
+
+#Now we will import our synthesized data
+```{r}
+library(readr)
+Games <- read_csv("Games.csv")
+head(Games)
+```
+
+```{r}
+#find out the top five players by points in each games and display the results
+
+head(Games)
+dat1<-Games[,c(2,3,5)]
+head(dat1)
+
+library(dplyr)
+
+new_dat1 <- dat1 %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(new_dat1)
+#the top players are as follows
+```
+
+# Question 3b)
+```{r}
+#find the bottom five players by points in each of the games and display the results
+#game_id,player
+new_dat2<-arrange(new_dat1,points)
+
+
+
+head(new_dat2)
+
+#the bottom 5 players are as follows
+```
+
+# Question 3c
+
+```{r}
+#find out the player whose total points in the game is greatern than the average of all players
+#pointsof that game hint-if average points of all players in a game is 90 then find out all the 
+#top 5 players
+
+
+game_id1<-filter(Games, game_id == "1")
+head(game_id1)
+game_id1$greater<-ifelse(game_id1$points>=mean(points),"yes","NO")
+#the following displays the resulta of game 1
+head(game_id1)
+
+
+game_id2<-filter(Games, game_id == "2")
+game_id2$greater<-ifelse(game_id2$points>=mean(points),"yes","NO")
+#the following displays results for game 2
+head(game_id2)
+
+game_id3<-filter(Games, game_id == "3")
+game_id3$greater<-ifelse(game_id2$points>=mean(points),"yes","NO")
+#the following displays results for game 3
+head(game_id3)
+
+game_id4<-filter(Games, game_id == "4")
+game_id4$greater<-ifelse(game_id4$points>=mean(points),"yes","NO")
+#the following displays results for game 4
+head(game_id4)
+
+game_id5<-filter(Games, game_id == "5")
+game_id4$greater<-ifelse(game_id4$points>=mean(points),"yes","NO")
+#the following displays results for game 5
+head(game_id5)
+
+
+````
+# Question 4c
+
+```{r}
+df5<-Games %>% 
+  mutate(week = cut.Date(test_date1, breaks = "1 week", labels = FALSE)) %>% 
+  arrange(test_date1)
+
+week_1<-filter(df5, week == "1")
+
+week_1_new <- week_1 %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(week_1_new)
+
+week_2<-filter(df5, week == "2")
+
+week_2_new <- week_2 %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(week_2_new)
+
+     
+week_3<-filter(df5, week == "3")
+
+week_3_new <- week_3 %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(week_3_new)
+
+week_4<-filter(df5, week == "4")
+
+week_4_new <- week_4 %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(week_4_new)
+````
+
+# Question 4d
+
+```{r}
+#Bi weeekly
+
+biweek_one<-filter(df5, week == 1|2)
+head(biweek_one)
+
+biweek_one <- biweek_one %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(biweek_one)
+
+biweek_two<-filter(df5, week == 3|4)
+
+biweek_two <- biweek_two %>% 
+  # desc orders from largest to smallest
+  arrange(desc(points)) %>%
+  # select subsets the columns you want
+  select(game_id,player_id,points)
+
+head(biweek_two)
+````
+
+# Git operations
+
+git checkout -b new-branch
+
+```{r}
+#this was done create a repository them from the Shell (Tools > Shell)
+```
+
+https://github.com/johnwafula/challenges-francois.
+```{r}
+#forkin was done at this spot on github
+```
+
+git remote add upstream https://github.com/r-johnwafula/challenges-francois`
+
+```{r}
+#branching operations
+```
